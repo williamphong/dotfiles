@@ -6,6 +6,9 @@
 ## Neovim
 ![nvim](img/nvim.png)
 
-
 ## Spicetify
 ![Spicetify](img/spotify.png)
+
+
+## Linux
+![ubuntu](img/ubuntu.png)
