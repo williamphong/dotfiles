@@ -1,0 +1,7 @@
+# macos
+.DS_Store
+
+# ignore backup, swap, and undo files from nvim
+*~
+*.swp
+*.undo
