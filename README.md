@@ -4,7 +4,7 @@ These are my dotfiles that I use to setup my MacBook and Ubuntu server.
 
 ## Contents
 
-- my [`NeoVim`](##Neovim) setup utilizing LazyVim
+- my [`NeoVim`](#neovim) setup utilizing LazyVim
 - my `bashrc` config, containing starship and ble.sh
 - my `zshrc` config
 - my `Powerlevel10k` config
@@ -17,6 +17,7 @@ These are my dotfiles that I use to setup my MacBook and Ubuntu server.
 
 ![iterm2](img/iterm2.png)
 
+<div id='neovim'/>
 ## Neovim
 
 ![nvim](img/nvim.png)
