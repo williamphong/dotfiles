@@ -1,33 +1,188 @@
-# Get editor completions based on the config schema
-"$schema" = 'https://starship.rs/config-schema.json'
+# documentation at https://starship.rs/config/
 
+format = """\
+[](fg:overlay)\
+$directory\
+$git_branch\
+$git_status\
+$git_metrics\
+[ ](fg:overlay)\
+$fill\
+[ ](fg:overlay)\
+$c\
+$elixir\
+$elm\
+$golang\
+$haskell\
+$java\
+$julia\
+$nodejs\
+$nim\
+$rust\
+$scala\
+$conda\
+$python\
+$username\
+$hostname\
+$time\
+[](fg:overlay)\
+[─╮](fg:gold)\n\
+$character\
+"""
+
+right_format = """\
+[─╯](fg:gold)
+"""
 # Inserts a blank line between shell prompts
 add_newline = true
 
-# Replace the '❯' symbol in the prompt with '➜'
-[character] # The name of the module we are configuring is 'character'
-success_symbol = '[➜](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
+palette = "rose-pine-moon"
 
-# Disable the package module, hiding it from the prompt completely
-[package]
-disabled = true
+[palettes.rose-pine-moon]
+overlay = '#393552'
+love = '#eb6f92'
+gold = '#f6c177'
+rose = '#ea9a97'
+pine = '#3e8fb0'
+foam = '#9ccfd8'
+iris = '#c4a7e7'
 
-#no nerds font preset
-[battery]
-full_symbol = "• "
-charging_symbol = "⇡ "
-discharging_symbol = "⇣ "
-unknown_symbol = "❓ "
-empty_symbol = "❗ "
+[character]
+success_symbol = '[❯](foam) '
+error_symbol = '[❯](love) '
 
-[erlang]
-symbol = "ⓔ "
+
+[directory]
+format = "[$path]($style)"
+style = "bg:overlay fg:pine"
+truncation_length = 0
+#truncation_symbol = "…/"
+truncate_to_repo = false
+use_logical_path = false
+
+
+[git_branch]
+format = "[  ](bg:overlay fg:gold)[ $symbol $branch ]($style)"
+style = "bg:overlay fg:foam"
+symbol = ""
+
+[git_status]
+disabled = false
+style = "bg:overlay fg:love"
+format = '([$all_status$ahead_behind]($style))'
+up_to_date = '[ ✓ ](bg:overlay fg:iris)'
+untracked = '[?\($count\)](bg:overlay fg:gold)'
+stashed = '[$](bg:overlay fg:iris)'
+modified = '[!\($count\)](bg:overlay fg:gold)'
+renamed = '[»\($count\)](bg:overlay fg:iris)'
+deleted = '[✘\($count\)](style)'
+staged = '[+\($count\)](bg:overlay fg:gold)'
+ahead = '[⇡\(${count}\)](bg:overlay fg:foam)'
+diverged = '⇕[\[](bg:overlay fg:iris)[⇡\(${ahead_count}\)](bg:overlay fg:foam)[⇣\(${behind_count}\)](bg:overlay fg:rose)[\]](bg:overlay fg:iris)'
+behind = '[⇣\(${count}\)](bg:overlay fg:rose)'
+
+[fill]
+style = "fg:gold"
+symbol = "·"
+
+[username]
+disabled = false
+detect_env_vars = ['SSH_CONNECTION']
+format = "[ $user]($style)"
+style_root = "bg:overlay fg:iris"
+style_user = "bg:overlay fg:iris"
+
+[hostname]
+disabled = false
+ssh_only = true
+format = '[@$hostname ]($style)[](bg:overlay fg:gold)'
+style = "bg:overlay fg:iris"
+
+[time]
+disabled = false
+format = "[ $time]($style)"
+style = "bg:overlay fg:rose"
+time_format = "%I:%M:%S %P"
+use_12hr = true
+
+# Languages
+
+[c]
+style = "bg:overlay fg:pine"
+format = "[$symbol$version]($style)[ ](bg:overlay fg:gold)"
+disabled = false
+symbol = " "
+
+[elixir]
+style = "bg:overlay fg:pine"
+format = "[$symbol$version]($style)[ ](bg:overlay fg:gold)"
+disabled = false
+symbol = " "
+
+[elm]
+style = "bg:overlay fg:pine"
+format = "[$symbol$version]($style)[ ](bg:overlay fg:gold)"
+disabled = false
+symbol = " "
+
+[golang]
+style = "bg:overlay fg:pine"
+format = "[$symbol$version]($style)[ ](bg:overlay fg:gold)"
+disabled = false
+symbol = " "
+
+[haskell]
+style = "bg:overlay fg:pine"
+format = "[$symbol$version]($style)[ ](bg:overlay fg:gold)"
+disabled = false
+symbol = " "
+
+[java]
+style = "bg:overlay fg:pine"
+format = "[$symbol$version]($style)[ ](bg:overlay fg:gold)"
+disabled = false
+version_format = "v${raw}"
+symbol = " "
+
+[julia]
+style = "bg:overlay fg:pine"
+format = "[$symbol$version]($style)[ ](bg:overlay fg:gold)"
+disabled = false
+symbol = " "
 
 [nodejs]
-symbol = "[⬢](bold green) "
+style = "bg:overlay fg:pine"
+format = "[$symbol$version]($style)[ ](bg:overlay fg:gold)"
+disabled = false
+symbol = "󰎙 "
 
-[pulumi]
-symbol = "🧊 "
+[nim]
+style = "bg:overlay fg:pine"
+format = "[$symbol$version]($style)[ ](bg:overlay fg:gold)"
+disabled = false
+symbol = "󰆥 "
 
-[typst]
-symbol = "t "
+[rust]
+style = "bg:overlay fg:pine"
+format = "[$symbol$version]($style)[ ](bg:overlay fg:gold)"
+disabled = false
+symbol = ""
+
+[scala]
+style = "bg:overlay fg:pine"
+format = "[$symbol$version]($style)[ ](bg:overlay fg:gold)"
+disabled = false
+symbol = " "
+
+[python]
+style = "bg:overlay fg:pine"
+format = "[$symbol$version]($style)[ ](bg:overlay fg:gold)"
+disabled = false
+symbol = ' '
+
+[conda]
+style = "bg:overlay fg:pine"
+format = "[$symbol$environment]($style)[ ](bg:overlay fg:gold)"
+disabled = false
+symbol = '🅒 '
+
