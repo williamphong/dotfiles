@@ -1,8 +1,8 @@
 # dotfiles
 
-These are my dotfiles that I use to setup my MacBook and Ubuntu server.
+these are my dotfiles that I use to setup my MacBook and Ubuntu server.
 
-## Contents
+### Contents
 
 - my [`iTerm2`](#iterm2) setup, including my `zshrc` and `powerlevel10k` configs
 - my [`Linux`](#linux) setup, including my `bashrc`, `starship`, and `ble.sh` configs
@@ -11,6 +11,12 @@ These are my dotfiles that I use to setup my MacBook and Ubuntu server.
 - my [`btop`](#btop) config
 - my [`spotify`](#spotify) setup
 
+### Requirements
+- [Neovim](https://neovim.io/) >= **v0.10.0** 
+- [LazyVim](https://www.lazyvim.org/)
+- [JetBrainsMono Nerd Font](https://www.nerdfonts.com/)
+- [iterm2](https://iterm2.com/) **_(Macos)_**
+
 ## iTerm2
 ![iterm2](img/iterm2.png)
 - [`.zshrc`](https://github.com/williamphong/dotfiles/blob/main/.zshrc)
@@ -18,6 +24,7 @@ These are my dotfiles that I use to setup my MacBook and Ubuntu server.
   - nvim default editor
   - enables p10k and zsh highlighting
 - [`.p10k`](https://github.com/williamphong/dotfiles/blob/main/.p10k.zsh)
+- [rose pine moon](https://github.com/williamphong/dotfiles/blob/main/.config/term_colors/rose-pine-moon.itermcolors) theme
 - iterm2 and p10k config still needs some edits lol
 
 ## Linux
@@ -46,5 +53,7 @@ These are my dotfiles that I use to setup my MacBook and Ubuntu server.
 ## Spotify
 ![spotify](img/spotify.png)
 - [`/spicetify`](https://github.com/williamphong/dotfiles/tree/main/.config/spicetify)
-  - uses [spicetify](https://spicetify.app/) and the [rose pine](https://github.com/nicoleajoy/rose-pine-spotify) theme 
+  - uses [spicetify](https://spicetify.app/) and the [rose pine](https://github.com/nicoleajoy/rose-pine-spotify) theme
+ 
+[return to top](#dotfiles)
 
