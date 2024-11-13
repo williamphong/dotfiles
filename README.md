@@ -17,7 +17,6 @@ These are my dotfiles that I use to setup my MacBook and Ubuntu server.
 
 ![iterm2](img/iterm2.png)
 
-<div id='neovim'/>
 ## Neovim
 
 ![nvim](img/nvim.png)
