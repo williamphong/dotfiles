@@ -5,7 +5,7 @@ These are my dotfiles that I use to setup my MacBook and Ubuntu server.
 ## Contents
 
 - my `NeoVim` setup utilizing LazyVim
-- my 'bashrc' config
+- my 'bashrc' config, containing starship and ble.sh
 - my 'zshrc' config
 - my `Powerlevel10k` config
 - my 'Starship' config
