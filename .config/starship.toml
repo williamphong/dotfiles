@@ -22,8 +22,10 @@ $rust\
 $scala\
 $conda\
 $python\
+$cmd_duration\
 $username\
 $hostname\
+[](bg:overlay fg:gold)\
 $time\
 [](fg:overlay)\
 [─╮](fg:gold)\n\
@@ -85,6 +87,13 @@ behind = '[⇣\(${count}\)](bg:overlay fg:rose)'
 style = "fg:gold"
 symbol = "·"
 
+[cmd_duration]
+disabled = false
+min_time = 500
+show_milliseconds = false
+format = '[ $duration ]($style)[](bg:overlay fg:gold)'
+style = "bg:overlay fg:foam"
+
 [username]
 disabled = false
 detect_env_vars = ['SSH_CONNECTION']
@@ -95,7 +104,7 @@ style_user = "bg:overlay fg:iris"
 [hostname]
 disabled = false
 ssh_only = true
-format = '[@$hostname ]($style)[](bg:overlay fg:gold)'
+format = '[@$hostname ]($style)'
 style = "bg:overlay fg:iris"
 
 [time]
@@ -104,6 +113,8 @@ format = "[ $time]($style)"
 style = "bg:overlay fg:rose"
 time_format = "%I:%M:%S %P"
 use_12hr = true
+
+
 
 # Languages
 
