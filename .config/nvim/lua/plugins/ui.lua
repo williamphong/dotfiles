@@ -33,7 +33,6 @@ return {
 
             opts.commands = {
                 all = {
-                    -- options for the message history that you get with `:Noice`
                     view = "split",
                     opts = { enter = true, format = "details" },
                     filter = {},
@@ -55,7 +54,7 @@ return {
 
     -- animations
     {
-        "echasnovski/mini.animate",
+        "nvim-mini/mini.animate",
         event = "VeryLazy",
         opts = function(_, opts)
             opts.scroll = {
@@ -68,18 +67,5 @@ return {
     {
         "akinsho/bufferline.nvim",
         enabled = false,
-        event = "VeryLazy",
-        keys = {
-            { "<Tab>", "<Cmd>BufferLineCycleNext<CR>", desc = "Next tab" },
-            { "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev tab" },
-        },
-        opts = {
-            options = {
-                mode = "tabs",
-                -- separator_style = "slant",
-                show_buffer_close_icons = false,
-                show_close_icon = false,
-            },
-        },
     },
 }
