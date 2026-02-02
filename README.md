@@ -5,6 +5,7 @@ these are my dotfiles that I use to setup my MacBook and Ubuntu server.
 ### Contents
 
 - my [`iTerm2`](#iterm2) setup, including my `zshrc` and `powerlevel10k` configs
+- my [`kitty`](#kitty) setup, taken from Huguesmmm
 - my [`Linux`](#linux) setup, including my `bashrc`, `starship`, and `ble.sh` configs
 - my [`NeoVim`](#neovim) setup utilizing `LazyVim`
 - my [`Fastfetch`](#fastfetch) config

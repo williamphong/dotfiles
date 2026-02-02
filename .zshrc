@@ -1,50 +1,61 @@
-export PATH="/opt/homebrew/bin/:$PATH"
-
-# Enable fastfetch
-fastfetch
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# Powerlevel10k instant prompt
+if [[ -o login ]]; then
+  function run_fastfetch_once() {
+    TERM=xterm-256color fastfetch
+    unfunction run_fastfetch_once
+    precmd_functions=(${precmd_functions:#run_fastfetch_once})
+  }
+  precmd_functions+=(run_fastfetch_once)
 fi
-
-export SPICETIFY_INSTALL="/Users/isti/.spicetify"
-export PATH="$PATH:/Users/isti/.spicetify"export PATH=$PATH:/Users/williamphong/.SPICETIFY_INSTALL
-export PATH=/opt/homebrew/bin:$PATH
-export NVM_DIR="$HOME/.nvm"
-export PATH=${PATH}:/usr/local/mysql/bin/
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export PATH="/opt/homebrew/sbin:$PATH" 
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/williamphong/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/williamphong/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/williamphong/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/williamphong/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
-
-# Make nvim default editor
+# Path & environment variables
+export PATH="/Users/williamphong/.pixi/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/mysql/bin:$PATH"
 export EDITOR="nvim"
 export VISUAL="nvim"
+export CLICOLOR=1
+export SPICETIFY_INSTALL="$HOME/.spicetify"
+export PATH="$PATH:$SPICETIFY_INSTALL"
 
-# Enable p10k and zsh-syntax-highlighting
+# Initialize completion system
+autoload -Uz compinit && compinit
+
+# Aliases
+alias ls="ls -G"
+alias ll="ls -lG"
+alias ssh="kitten ssh"
+alias vim="nvim"
+alias vi="nvim"
+compdef _ssh kitten
+
+# Themes & plugins
 source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# Tool initialization
+eval "$(fnm env --use-on-cd)"
+[[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
 
+# Pixi auto-activation
+autoload -U add-zsh-hook
+load_pixi_env() {
+  if [[ -f "pixi.toml" ]]; then
+    if [[ "$PIXI_ACTIVE_PROJECT" != "$(pwd)" ]]; then
+      export PIXI_ACTIVE_PROJECT="$(pwd)"
+      eval "$(pixi shell-hook)"
+    fi
+  elif [[ -n "$PIXI_ACTIVE_PROJECT" ]]; then
+    unset PIXI_ACTIVE_PROJECT
+  fi
+}
+add-zsh-hook chpwd load_pixi_env
+load_pixi_env
 
+# Run fastfetch after P10K completes (login shells only)
+if [[ -o login ]]; then
+  function run_fastfetch_once() {
+    fastfetch
+    unfunction run_fastfetch_once
+    precmd_functions=(${precmd_functions:#run_fastfetch_once})
+  }
+  precmd_functions+=(run_fastfetch_once)
+fi
