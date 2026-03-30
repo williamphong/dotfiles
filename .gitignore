@@ -5,3 +5,4 @@
 *~
 *.swp
 *.undo
+.config/tmux/plugins/
