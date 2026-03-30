@@ -19,12 +19,15 @@ export PATH="$PATH:$SPICETIFY_INSTALL"
 autoload -Uz compinit && compinit
 
 # Aliases
-alias ls="ls -G"
-alias ll="ls -lG"
+alias ls="lsd"
+alias ll="lsd -lG"
 alias ssh="kitten ssh"
+alias icat="kitten icat"
 alias vim="nvim"
 alias vi="nvim"
-compdef _ssh kitten
+alias cd="z"
+# Tell zsh to use the same completion for kitten as it does for ssh
+compdef kitten=ssh
 
 # Themes & plugins
 source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
@@ -59,3 +62,21 @@ if [[ -o login ]]; then
   }
   precmd_functions+=(run_fastfetch_once)
 fi
+
+# bun completions
+[ -s "/Users/williamphong/.bun/_bun" ] && source "/Users/williamphong/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/Users/williamphong/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# zoxide initialization
+eval "$(zoxide init zsh)"
