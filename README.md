@@ -31,6 +31,7 @@ these are my dotfiles that I use to setup my MacBook and Ubuntu server.
 - [Starship](https://starship.rs/) **_(Linux)_**
 - [ble.sh](https://github.com/akinomyoga/ble.sh) **_(Linux)_**
 - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) **_(macOS)_**
+- [zoxide](https://github.com/ajeetdsouza/zoxide) — smarter `cd` replacement
 
 ## MacOS
 ![macos](img/kitty.jpg)
@@ -38,9 +39,11 @@ these are my dotfiles that I use to setup my MacBook and Ubuntu server.
   - runs fastfetch on open
   - nvim default editor
   - enables p10k and zsh highlighting
+  - zoxide enabled as a `cd` replacement
 - [`.p10k`](https://github.com/williamphong/dotfiles/blob/main/.p10k.zsh)
 - [`/kitty`](https://github.com/williamphong/dotfiles/tree/main/.config/kitty) config, inspired by Huguesmmm
 - [rose pine moon](https://github.com/williamphong/dotfiles/blob/main/.config/term_colors/rose-pine-moon.itermcolors) terminal theme
+
 
 [return to top](#dotfiles)
 
