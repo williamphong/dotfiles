@@ -1,6 +1,11 @@
 # dotfiles
 these are my dotfiles that I use to setup my MacBook and Ubuntu server.
 
+
+### Preview
+![dotfiles](img/dotfiles.png)
+
+
 ### Contents
 - my [`MacOS`](#macos) setup, including my `kitty`, `zshrc`, and `powerlevel10k` configs, inspired by Huguesmmm
 - my [`Linux`](#linux) setup, including my `bashrc`, `starship`, and `ble.sh` configs
@@ -28,7 +33,7 @@ these are my dotfiles that I use to setup my MacBook and Ubuntu server.
 - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) **_(macOS)_**
 
 ## MacOS
-![macos](img/kitty.png)
+![macos](img/kitty.jpg)
 - [`.zshrc`](https://github.com/williamphong/dotfiles/blob/main/.zshrc)
   - runs fastfetch on open
   - nvim default editor
