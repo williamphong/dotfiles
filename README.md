@@ -15,6 +15,7 @@ these are my dotfiles that I use to setup my MacBook and Ubuntu server.
 - my [`Spotify`](#spotify) setup
 - my [`Tmux`](#tmux) setup with smart-splits and rose pine theme
 - my [`lsd`](#lsd) config with rose pine colors
+- how configs are [`installed`](#install) and [`synced to servers`](#remote-servers)
 
 ### Install
 ```sh
@@ -50,14 +51,19 @@ file-level symlink with a regular file.
 - [ble.sh](https://github.com/akinomyoga/ble.sh) **_(Linux)_**
 - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) **_(macOS)_**
 - [zoxide](https://github.com/ajeetdsouza/zoxide) — smarter `cd` replacement
+- [direnv](https://direnv.net/) — per-project environments, used for `pixi`
+- [fnm](https://github.com/Schniz/fnm) — node version manager
 
 ## MacOS
 ![macos](img/kitty.jpg)
 - [`.zshrc`](https://github.com/williamphong/dotfiles/blob/main/.zshrc)
-  - runs fastfetch on open
+  - runs fastfetch on login shells
   - nvim default editor
   - enables p10k and zsh highlighting
   - zoxide enabled as a `cd` replacement
+  - direnv for per-project environments, including `pixi`
+  - `ssh`/`icat` wrap the kitty kittens, falling back to real `ssh` when not
+    attached to kitty so scripted and piped calls keep working
 - [`.p10k`](https://github.com/williamphong/dotfiles/blob/main/.p10k.zsh)
 - [`/kitty`](https://github.com/williamphong/dotfiles/tree/main/.config/kitty) config, inspired by Huguesmmm
 - [rose pine moon](https://github.com/williamphong/dotfiles/blob/main/.config/term_colors/rose-pine-moon.itermcolors) terminal theme
@@ -68,12 +74,34 @@ file-level symlink with a regular file.
 ## Linux
 ![ubuntu](img/ubuntu.png)
 - [`.bashrc`](https://github.com/williamphong/dotfiles/blob/main/.bashrc)
-  - runs fastfetch on open
-  - nvim default editor
-  - enables starship and ble.sh with prompt configuration
+  - mirrors [`.zshrc`](https://github.com/williamphong/dotfiles/blob/main/.zshrc):
+    same history policy and sizes, same aliases, zoxide bound to `cd`, direnv
+  - runs fastfetch on login shells only, not in every tmux pane
+  - enables starship and ble.sh with transient prompt configuration
+  - every block is guarded, so it degrades to a plain working shell on a
+    server that has none of these tools installed — see [Remote servers](#remote-servers)
 - [`starship.toml`](https://github.com/williamphong/dotfiles/blob/main/.config/starship.toml)
   - based on the original [rose pine](https://github.com/rose-pine/starship) starship theme
   - prompt is based on p10k
+
+[return to top](#dotfiles)
+
+## Remote servers
+Connecting with `kitten ssh` copies these configs to the remote host, so a
+fresh server behaves like the local machine without setting anything up by
+hand. The copy list lives in
+[`ssh.conf`](https://github.com/williamphong/dotfiles/blob/main/.config/kitty/ssh.conf):
+`.bashrc`, `nvim`, `lsd`, `tmux`, `fastfetch` and `starship.toml`.
+
+Worth knowing:
+- kitty copies **configs, not binaries**. On a host without starship, lsd, nvim
+  or ble.sh, `.bashrc` falls back to a plain coloured prompt, `ls --color` and
+  `vim`. Nothing errors; install the tools separately for the full setup.
+- `~/.bashrc` on the remote is **overwritten** on connect. Per-server tweaks
+  belong in `~/.bash_aliases` there, which `.bashrc` sources and never copies.
+- SSH keys are never copied. Use `ForwardAgent yes` per-host in `~/.ssh/config`
+  so the private key stays on the Mac; `.bashrc` pins the forwarded agent
+  socket to a stable path so it survives tmux reattaches.
 
 [return to top](#dotfiles)
 
@@ -84,7 +112,6 @@ file-level symlink with a regular file.
 [return to top](#dotfiles)
 
 ## Fastfetch
-![fastfetch](img/fastfetch.png)
 - [`config.jsonc`](https://github.com/williamphong/dotfiles/blob/main/.config/fastfetch/config.jsonc)
 
 [return to top](#dotfiles)
@@ -100,6 +127,8 @@ file-level symlink with a regular file.
 ![spotify](img/spotify.png)
 - [`/spicetify`](https://github.com/williamphong/dotfiles/tree/main/.config/spicetify)
   - uses [spicetify](https://spicetify.app/) and the [rose pine](https://github.com/nicoleajoy/rose-pine-spotify) theme
+  - only `config-xpui.ini` is tracked; themes, extensions and custom apps are
+    third-party installs that spicetify fetches itself
 
 [return to top](#dotfiles)
 
@@ -113,7 +142,10 @@ file-level symlink with a regular file.
   - [rose pine](https://github.com/rose-pine/tmux) tmux theme
   - plugins managed by [TPM](https://github.com/tmux-plugins/tpm)
     - [tmux-sensible](https://github.com/tmux-plugins/tmux-sensible) — sane default settings
-    - [smart-splits](https://github.com/mrjones2014/smart-splits.nvim) — seamless pane/neovim split navigation with `Ctrl+h/j/k/l` and resizing with `Alt+h/j/k/l`
+    - [smart-splits](https://github.com/mrjones2014/smart-splits.nvim) — seamless pane/neovim split navigation with `Ctrl+h/j/k/l` and resizing with `Alt+arrow keys`
+    - [tmux-floax](https://github.com/omerxx/tmux-floax) — floating scratch pane
+    - [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect) — restores sessions, pane contents and nvim sessions
+  - plugin checkouts are not tracked; TPM installs them on first run
 
 [return to top](#dotfiles)
 
