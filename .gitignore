@@ -17,3 +17,11 @@
 
 # stale tpm location; plugins now live under .config/tmux/plugins
 .tmux/
+
+# never track ssh material -- private keys, and a config that would leak
+# hostnames and internal IPs into a public repo
+.ssh/
+*.pem
+id_rsa*
+id_ed25519*
+known_hosts*
