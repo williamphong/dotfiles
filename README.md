@@ -16,6 +16,24 @@ these are my dotfiles that I use to setup my MacBook and Ubuntu server.
 - my [`Tmux`](#tmux) setup with smart-splits and rose pine theme
 - my [`lsd`](#lsd) config with rose pine colors
 
+### Install
+```sh
+git clone https://github.com/williamphong/dotfiles ~/Github/dotfiles
+cd ~/Github/dotfiles
+./install.sh
+```
+
+`install.sh` symlinks each config back to this repo, so editing the live config
+and editing the repo are the same write and the two cannot drift apart. It is
+idempotent, so re-run it after adding a new config. Anything already sitting at
+a target is moved to `~/.dotfiles-backup/<timestamp>/` rather than overwritten;
+`./install.sh --dry-run` shows what would change without touching anything.
+
+Directories (`nvim`, `kitty`, `tmux`, `btop`, ...) are linked whole, so writes
+an app makes next to its own config — btop rewriting `btop.conf` on exit, kitty
+writing `current-theme.conf` — land in the repo instead of silently replacing a
+file-level symlink with a regular file.
+
 ### Requirements
 - [Neovim](https://neovim.io/) >= **v0.10.0**
 - [LazyVim](https://www.lazyvim.org/)
