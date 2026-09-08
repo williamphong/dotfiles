@@ -177,6 +177,9 @@ fi
 # make less friendly for non-text input files, see lesspipe(1)
 [[ -x /usr/bin/lesspipe ]] && eval "$(SHELL=/bin/sh lesspipe)"
 
+# The persistence hook. On a remote host this file itself is re-copied by
+# kitten ssh on every connection, so edits to it there are lost; ~/.bash_aliases
+# is never copied and is the place for per-server changes.
 [[ -f "$HOME/.bash_aliases" ]] && source "$HOME/.bash_aliases"
 
 # ---------------------------------------------------------------------------

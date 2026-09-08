@@ -97,8 +97,14 @@ Worth knowing:
 - kitty copies **configs, not binaries**. On a host without starship, lsd, nvim
   or ble.sh, `.bashrc` falls back to a plain coloured prompt, `ls --color` and
   `vim`. Nothing errors; install the tools separately for the full setup.
-- `~/.bashrc` on the remote is **overwritten** on connect. Per-server tweaks
-  belong in `~/.bash_aliases` there, which `.bashrc` sources and never copies.
+- the remote's own `~/.bashrc` is **never touched**. bash has no `ZDOTDIR`, but
+  kitty's shell integration reads `KITTY_BASH_RCFILE`, so the repo copy lands at
+  `~/.config/dotfiles/bashrc` and is sourced from there — leaving a shared
+  account's `.bashrc` alone. The system `/etc/bash.bashrc` is still sourced
+  first, so distro setup survives.
+- everything copied is **refreshed on every connect**, so don't hand-edit
+  `~/.config/dotfiles/bashrc` on a server. Per-server changes go in
+  `~/.bash_aliases`, which `.bashrc` sources and which is never copied.
 - SSH keys are never copied. Use `ForwardAgent yes` per-host in `~/.ssh/config`
   so the private key stays on the Mac; `.bashrc` pins the forwarded agent
   socket to a stable path so it survives tmux reattaches.
