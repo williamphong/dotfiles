@@ -49,12 +49,21 @@ LINKS=(
   # 70M of third-party Themes/, CustomApps/ and Extensions/ next to its config,
   # and only this file is ours.
   .config/spicetify/config-xpui.ini
+  # kitty's ssh copy resolves paths relative to $HOME, so anything ssh.conf
+  # ships has to exist there. This also puts it on PATH locally.
+  "bootstrap.sh:.local/bin/dotfiles-bootstrap"
 )
 
 link() {
-  local rel="$1"
+  # An entry is either "path", when the name is the same on both sides, or
+  # "src:dst" when the path in $HOME differs from the path in the repo. With no
+  # colon both expansions yield the whole string, so the simple case is
+  # unaffected.
+  local entry="$1"
+  local rel="${entry%%:*}"
+  local dstrel="${entry#*:}"
   local src="$DOTFILES/$rel"
-  local dst="$HOME/$rel"
+  local dst="$HOME/$dstrel"
 
   if [[ ! -e "$src" ]]; then
     printf '  skip     %s (not in repo)\n' "$rel"
@@ -62,20 +71,20 @@ link() {
   fi
 
   if [[ -L "$dst" && "$(readlink "$dst")" == "$src" ]]; then
-    printf '  ok       %s\n' "$rel"
+    printf '  ok       %s\n' "$dstrel"
     return
   fi
 
   # -L as well as -e, so a broken symlink in the way is still cleared.
   if [[ -e "$dst" || -L "$dst" ]]; then
-    printf '  backup   %s -> %s\n' "$rel" "$BACKUP/$rel"
+    printf '  backup   %s -> %s\n' "$dstrel" "$BACKUP/$dstrel"
     if (( ! DRY_RUN )); then
-      mkdir -p "$(dirname "$BACKUP/$rel")"
-      mv "$dst" "$BACKUP/$rel"
+      mkdir -p "$(dirname "$BACKUP/$dstrel")"
+      mv "$dst" "$BACKUP/$dstrel"
     fi
   fi
 
-  printf '  link     %s\n' "$rel"
+  printf '  link     %s\n' "$dstrel"
   if (( ! DRY_RUN )); then
     mkdir -p "$(dirname "$dst")"
     ln -sfn "$src" "$dst"
