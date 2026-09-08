@@ -14,3 +14,6 @@
 .config/spicetify/Themes/
 .config/spicetify/CustomApps/
 .config/spicetify/Extensions/
+
+# stale tpm location; plugins now live under .config/tmux/plugins
+.tmux/
