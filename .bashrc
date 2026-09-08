@@ -126,6 +126,25 @@ if command -v direnv >/dev/null 2>&1; then
 fi
 
 # ---------------------------------------------------------------------------
+# SSH agent
+#
+# Deliberately does NOT start an agent or load a key. The private key stays on
+# the Mac; `ForwardAgent yes` on the client side makes sshd set SSH_AUTH_SOCK
+# here on its own, so git over ssh works with no key ever landing on this box.
+#
+# The one thing that needs help is tmux. SSH_AUTH_SOCK points at a per-connection
+# socket that dies when that ssh session ends, but the tmux server outlives it,
+# so panes reattached from a later connection inherit a dead path. Pinning a
+# stable symlink to the live socket, and exporting that instead, keeps
+# long-running panes working across reconnects.
+# ---------------------------------------------------------------------------
+if [[ -n "${SSH_AUTH_SOCK-}" && -S "$SSH_AUTH_SOCK" && "$SSH_AUTH_SOCK" != "$HOME/.ssh/agent.sock" ]]; then
+  mkdir -p "$HOME/.ssh" && chmod 700 "$HOME/.ssh"
+  ln -sf "$SSH_AUTH_SOCK" "$HOME/.ssh/agent.sock"
+fi
+[[ -S "$HOME/.ssh/agent.sock" ]] && export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
+
+# ---------------------------------------------------------------------------
 # Aliases
 # ---------------------------------------------------------------------------
 if command -v lsd >/dev/null 2>&1; then
