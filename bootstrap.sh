@@ -1,14 +1,21 @@
 #!/usr/bin/env sh
 #
-# Install the tools .bashrc expects onto a remote host.
+# Install the tools .bashrc expects onto a machine.
 #
-#   ./bootstrap-remote.sh wp-linux sdsudb    provision those hosts over ssh
-#   ./bootstrap-remote.sh                    provision the machine it runs on
+#   ./bootstrap.sh wp-linux sdsudb    provision those hosts over ssh, from here
+#   ./bootstrap.sh                    provision the machine it is running on
 #
-# Deliberately NOT wired into kitten ssh, and deliberately not called from
-# .bashrc. Copying config on every connect is declarative and cheap; fetching
-# and executing installers is neither. On a shared or locked-down host that
-# should be a decision you make once, not a side effect of logging in.
+# kitten ssh also copies this to ~/.local/bin/dotfiles-bootstrap on every host
+# it connects to, so when you land on a server with a bare prompt you can fix
+# it in place without going back to the laptop:
+#
+#   dotfiles-bootstrap                (or: sh ~/.local/bin/dotfiles-bootstrap)
+#
+# Being copied is not the same as being run. Nothing here executes on connect,
+# and it is deliberately not called from .bashrc: copying config is declarative
+# and cheap, whereas fetching and executing installers is neither, and on a
+# shared or locked-down host that should be a decision you make once rather
+# than a side effect of logging in.
 #
 # Everything lands under ~/.local, so no root is needed and nothing outside
 # your home directory is touched. Every step is idempotent: re-running only
