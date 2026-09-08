@@ -91,12 +91,17 @@ Connecting with `kitten ssh` copies these configs to the remote host, so a
 fresh server behaves like the local machine without setting anything up by
 hand. The copy list lives in
 [`ssh.conf`](https://github.com/williamphong/dotfiles/blob/main/.config/kitty/ssh.conf):
-`.bashrc`, `nvim`, `lsd`, `tmux`, `fastfetch` and `starship.toml`.
+
+| lands on the remote at | copied from |
+| --- | --- |
+| `~/.config/{nvim,lsd,tmux,fastfetch}`, `~/.config/starship.toml` | the same paths here |
+| `~/.config/dotfiles/bashrc` | `.bashrc`, sourced via `KITTY_BASH_RCFILE` |
+| `~/.local/bin/dotfiles-bootstrap` | `bootstrap.sh` |
 
 Worth knowing:
 - kitty copies **configs, not binaries**. On a host without starship, lsd, nvim
   or ble.sh, `.bashrc` falls back to a plain coloured prompt, `ls --color` and
-  `vim`. Nothing errors; install the tools separately for the full setup.
+  `vim`. Nothing errors — see [Provisioning a server](#provisioning-a-server).
 - the remote's own `~/.bashrc` is **never touched**. bash has no `ZDOTDIR`, but
   kitty's shell integration reads `KITTY_BASH_RCFILE`, so the repo copy lands at
   `~/.config/dotfiles/bashrc` and is sourced from there — leaving a shared
@@ -105,17 +110,41 @@ Worth knowing:
 - everything copied is **refreshed on every connect**, so don't hand-edit
   `~/.config/dotfiles/bashrc` on a server. Per-server changes go in
   `~/.bash_aliases`, which `.bashrc` sources and which is never copied.
-- kitty copies config but installs nothing, so a host without starship shows
-  the fallback prompt. [`bootstrap.sh`](https://github.com/williamphong/dotfiles/blob/main/bootstrap.sh)
-  fixes that: it installs starship and ble.sh under `~/.local` with no root,
-  and is idempotent. Run it either way round —
-  `./bootstrap.sh wp-linux sdsudb` from the laptop to provision hosts over ssh,
-  or `dotfiles-bootstrap` from inside a session, since it is copied to
-  `~/.local/bin` on every host and `.bashrc` puts that on `PATH`.
-  It is copied, never run: nothing executes on connect.
+- copy paths are resolved relative to `$HOME`, so anything listed in `ssh.conf`
+  must be symlinked into `$HOME` by `install.sh` first.
 - SSH keys are never copied. Use `ForwardAgent yes` per-host in `~/.ssh/config`
   so the private key stays on the Mac; `.bashrc` pins the forwarded agent
   socket to a stable path so it survives tmux reattaches.
+
+### Provisioning a server
+[`bootstrap.sh`](https://github.com/williamphong/dotfiles/blob/main/bootstrap.sh)
+installs starship and ble.sh under `~/.local`, so it needs no root, and it is
+idempotent — re-running only fills in what is missing.
+
+```sh
+# from the laptop, one or more hosts at once
+./bootstrap.sh myserver anotherserver
+
+# from inside a session, since it is copied to ~/.local/bin
+# and .bashrc puts that on PATH
+dotfiles-bootstrap
+sh ~/.local/bin/dotfiles-bootstrap   # if the executable bit was not preserved
+```
+
+If the script is not there at all — you connected with plain `ssh` rather than
+`kitten ssh`, hopped in from another host, or last connected before it was
+added — fetch it straight from the repo instead:
+
+```sh
+curl -sS https://raw.githubusercontent.com/williamphong/dotfiles/main/bootstrap.sh | sh
+```
+```sh
+wget -qO- https://raw.githubusercontent.com/williamphong/dotfiles/main/bootstrap.sh | sh
+```
+
+Being copied is not the same as being run. Nothing executes on connect and
+nothing calls it from `.bashrc`: syncing config every time is cheap and
+declarative, whereas fetching and executing installers is neither.
 
 [return to top](#dotfiles)
 
