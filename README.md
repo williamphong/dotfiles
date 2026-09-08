@@ -105,6 +105,12 @@ Worth knowing:
 - everything copied is **refreshed on every connect**, so don't hand-edit
   `~/.config/dotfiles/bashrc` on a server. Per-server changes go in
   `~/.bash_aliases`, which `.bashrc` sources and which is never copied.
+- kitty copies config but installs nothing. To provision a host with the
+  tools `.bashrc` expects, run
+  [`bootstrap-remote.sh`](https://github.com/williamphong/dotfiles/blob/main/bootstrap-remote.sh)
+  once per server: `./bootstrap-remote.sh wp-linux sdsudb`. It installs
+  starship and ble.sh under `~/.local` with no root, and is idempotent. It is
+  intentionally not run on connect — see the note at the top of the script.
 - SSH keys are never copied. Use `ForwardAgent yes` per-host in `~/.ssh/config`
   so the private key stays on the Mac; `.bashrc` pins the forwarded agent
   socket to a stable path so it survives tmux reattaches.
