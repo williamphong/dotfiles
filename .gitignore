@@ -7,3 +7,10 @@
 *.swp
 *.undo
 .config/tmux/plugins/
+
+# spicetify installs third-party themes, extensions and custom apps here.
+# Only config-xpui.ini is actually ours; the rest is 70M of vendored upstream
+# code that spicetify re-fetches on install.
+.config/spicetify/Themes/
+.config/spicetify/CustomApps/
+.config/spicetify/Extensions/
